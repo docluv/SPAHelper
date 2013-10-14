@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Specialized;
+using System.Linq;
 using System.IO;
 using System.Web;
 using System.Web.Mvc;
@@ -8,12 +10,13 @@ namespace SPAHelper
     public static class SpaHelper
     {
 
-        public static string SPALink(this HtmlHelper helper,
-                                        bool hasEscapeFragment, string type, string route)
+        public static string SPALink(this HtmlHelper helper, string route)
         {
 
+            var type = HttpContext.Current.Request.Browser.Type;
+
             //adding this for those freaking outdated versions of IE
-            if (hasEscapeFragment || (type == "IE8" || type == "IE7"))
+            if (helper.HasEscapeFragment() || (type == "IE8" || type == "IE7"))
             {
                 return String.Format("?_escaped_fragment_={0}", route);
             }
@@ -73,6 +76,34 @@ namespace SPAHelper
             cookie.Expires = dtNow + tsMinute;
 
             return lastLoad;
+        }
+
+
+        public static string TickVersionLink(this HtmlHelper helper,
+                                                string fileName)
+        {
+
+            var appcacheFileTime = File.GetLastWriteTime(
+                                HttpContext.Current.Server.MapPath(fileName)).Ticks;
+
+            return fileName + "?v=" + appcacheFileTime.ToString();
+        }
+
+        public static bool HasEscapeFragment(this HtmlHelper helper)
+        {
+
+            NameValueCollection queryString = HttpContext.Current.Request.QueryString;
+
+            foreach (string key in queryString.AllKeys.Where(key => key != null))
+            {
+                if (key == "_escaped_fragment_")
+                {
+                    return true;
+                }
+            }
+
+
+            return false;
         }
 
 
