@@ -78,6 +78,26 @@ namespace SPAHelper
             return lastLoad;
         }
 
+        public static long LastUpdated(this HtmlHelper helper) {
+
+            string header = HttpContext.Current.Request.Headers["If-Modified-Since"];
+            DateTime lastModified = DateTime.MinValue;
+            long lastLoad = lastModified.ToUniversalTime().Ticks;
+
+            if (!string.IsNullOrEmpty(header))
+            {
+
+                DateTime.TryParse(header, out lastModified);
+
+                if (lastModified != null)
+                {
+                    lastLoad = lastModified.ToUniversalTime().Ticks;
+                }
+
+            }
+
+            return lastLoad;
+        }
 
         public static string TickVersionLink(this HtmlHelper helper,
                                                 string fileName)
