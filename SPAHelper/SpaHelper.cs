@@ -13,10 +13,10 @@ namespace SPAHelper
         public static string SPALink(this HtmlHelper helper, string route)
         {
 
-            var type = HttpContext.Current.Request.Browser.Type;
+            var type = HttpContext.Current.Request.Browser.MajorVersion;
 
             //adding this for those freaking outdated versions of IE
-            if (helper.HasEscapeFragment() || (type == "IE8" || type == "IE7"))
+            if (helper.HasEscapeFragment() || type == 8)
             {
                 return String.Format("?_escaped_fragment_={0}", route);
             }

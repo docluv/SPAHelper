@@ -18,7 +18,7 @@ namespace SPAHelper
                             )
         {
 
-            var fileTime = File.GetLastWriteTimeUtc(path).Ticks;
+            var fileTime = File.GetLastWriteTimeUtc(Server.MapPath(@"Views\Home\" + path)).Ticks;
 
             if (lastRead < fileTime)
             {
