@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Specialized;
-using System.Linq;
 using System.IO;
+using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
@@ -10,13 +10,23 @@ namespace SPAHelper
     public static class SpaHelper
     {
 
+
+        //adding this for those freaking outdated versions of IE
+        //deal with obsolete Internet Explorer Versions
+        public static bool IsObsoleteBrowser(this HtmlHelper helper) {
+
+            var Request = HttpContext.Current.Request;
+
+            return ((Request.Browser.Browser == "InternetExplorer" || Request.Browser.Browser == "IE")
+                    && Request.Browser.MajorVersion != 10
+                    && Request.Browser.MajorVersion != 11);
+//                    && !Request.RawUrl.Contains("_escaped_fragment_"));
+        }
+
         public static string SPALink(this HtmlHelper helper, string route)
         {
 
-            var type = HttpContext.Current.Request.Browser.MajorVersion;
-
-            //adding this for those freaking outdated versions of IE
-            if (helper.HasEscapeFragment() || type == 8)
+            if (IsObsoleteBrowser(helper))
             {
                 return String.Format("?_escaped_fragment_={0}", route);
             }
@@ -28,6 +38,7 @@ namespace SPAHelper
 
         }
 
+        [Obsolete("You should adjust code to use Last Modified Header Instead, LastUpdated() Method")]
         public static long SetUpdateCookie(this HtmlHelper helper,
                                     string dt, int debugTTL, int productionTTL)
         {
@@ -80,6 +91,11 @@ namespace SPAHelper
 
         public static long LastUpdated(this HtmlHelper helper) {
 
+            if (HasForceReload())
+            {
+                return DateTime.MinValue.ToUniversalTime().Ticks;
+            }
+
             string header = HttpContext.Current.Request.Headers["If-Modified-Since"];
             DateTime lastModified = DateTime.MinValue;
             long lastLoad = lastModified.ToUniversalTime().Ticks;
@@ -117,6 +133,23 @@ namespace SPAHelper
             foreach (string key in queryString.AllKeys.Where(key => key != null))
             {
                 if (key == "_escaped_fragment_")
+                {
+                    return true;
+                }
+            }
+
+
+            return false;
+        }
+
+        public static bool HasForceReload()
+        {
+
+            NameValueCollection queryString = HttpContext.Current.Request.QueryString;
+
+            foreach (string key in queryString.AllKeys.Where(key => key != null))
+            {
+                if (key == "_force_reload_")
                 {
                     return true;
                 }
