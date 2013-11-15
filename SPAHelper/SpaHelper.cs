@@ -24,7 +24,7 @@ namespace SPAHelper
 
             var ret = IsOldIE();
 
-            if (!ret && !(IsIE10() || IsIE11()))
+            if (!ret && !IsModernIE())
             {
                 ret = false;
             }
@@ -43,17 +43,16 @@ namespace SPAHelper
             var Request = HttpContext.Current.Request;
 
             return (Request.Browser.Browser == "InternetExplorer"
-                    && Request.Browser.MajorVersion != 10);
+                    && Request.Browser.MajorVersion == 10);
         
         }
 
         /* Right now this only matters on my local dev machine. My Windows 2012 server correctly identifies IE 11 as not Internet Explorer, but the version # is incorectly reports as 7. So this is mostly for my local development purposes*/
-        public static bool IsIE11() {
+        public static bool IsModernIE() {
 
             var Request = HttpContext.Current.Request;
 
-            return (Request.Browser.Browser == "InternetExplorer"
-                    && Request.Browser.MajorVersion != 11);
+            return (Request.Browser.Browser == "InternetExplorer");
 
         }
 
