@@ -1,0 +1,1 @@
+﻿This is a little helper library for ASP.NET MVC to help drive Single Page Applications using my process. I will post more documentation sometime soon and the entire architecture will be explained and demonstrated in an upcoming book I hope to have available early December.

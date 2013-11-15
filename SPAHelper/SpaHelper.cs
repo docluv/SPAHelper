@@ -13,14 +13,55 @@ namespace SPAHelper
 
         //adding this for those freaking outdated versions of IE
         //deal with obsolete Internet Explorer Versions
+        //I am working a good way to make this test very extensible and not so hard coded.
         public static bool IsObsoleteBrowser(this HtmlHelper helper) {
 
             var Request = HttpContext.Current.Request;
 
-            return ((Request.Browser.Browser == "InternetExplorer" || Request.Browser.Browser == "IE")
-                    && Request.Browser.MajorVersion != 10
+            //return ((Request.Browser.Browser == "InternetExplorer" || Request.Browser.Browser == "IE")
+            //        && Request.Browser.MajorVersion != 10
+            //        && Request.Browser.MajorVersion != 11);
+
+            var ret = IsOldIE();
+
+            if (!ret && !(IsIE10() || IsIE11()))
+            {
+                ret = false;
+            }
+
+            return ret;
+        }
+
+        public static bool IsOldIE() {
+
+            return HttpContext.Current.Request.Browser.Browser == "IE";
+        
+        }
+
+        public static bool IsIE10() { 
+
+            var Request = HttpContext.Current.Request;
+
+            return (Request.Browser.Browser == "InternetExplorer"
+                    && Request.Browser.MajorVersion != 10);
+        
+        }
+
+        /* Right now this only matters on my local dev machine. My Windows 2012 server correctly identifies IE 11 as not Internet Explorer, but the version # is incorectly reports as 7. So this is mostly for my local development purposes*/
+        public static bool IsIE11() {
+
+            var Request = HttpContext.Current.Request;
+
+            return (Request.Browser.Browser == "InternetExplorer"
                     && Request.Browser.MajorVersion != 11);
-//                    && !Request.RawUrl.Contains("_escaped_fragment_"));
+
+        }
+
+        /* Coming soon */
+        public static bool IsOldAndroidWebKit() {
+
+            return false;
+        
         }
 
         public static string SPALink(this HtmlHelper helper, string route)
