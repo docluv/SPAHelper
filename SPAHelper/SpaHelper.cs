@@ -21,7 +21,15 @@ namespace SPAHelper
 
         public static bool IsOldIE() {
 
-            return HttpContext.Current.Request.Browser.Browser == "IE";
+            var Browser = HttpContext.Current.Request.Browser;
+            var isIE = Browser.Browser == "IE";
+
+            if (!isIE)
+            {
+                return false;
+            }
+
+            return Browser.MajorVersion != 10;
         
         }
 
@@ -58,7 +66,7 @@ namespace SPAHelper
         public static string SPALink(this HtmlHelper helper, string route)
         {
 
-            if (IsObsoleteBrowser(helper))
+            if (IsObsoleteBrowser(helper) || HasEscapeFragment(helper))
             {
                 return String.Format("?_escaped_fragment_={0}", route);
             }
