@@ -45,7 +45,22 @@ namespace SPAHelper
         /* Right now this only matters on my local dev machine. My Windows 2012 server correctly identifies IE 11 as not Internet Explorer, but the version # is incorectly reports as 7. So this is mostly for my local development purposes*/
         public static bool IsModernIE() {
 
-            return HttpContext.Current.Request.Browser.Browser == "InternetExplorer";
+            var Browser = HttpContext.Current.Request.Browser;
+            var isModernIE = Browser.Browser == "InternetExplorer";
+
+            if (isModernIE)
+            {
+                return true;
+            }
+
+            var olderID = (Browser.Browser == "IE");
+
+            if (olderID && Browser.MajorVersion != 10)
+            {
+                return false;
+            }
+
+            return true;        
 
         }
 
@@ -159,10 +174,10 @@ namespace SPAHelper
                                                 string fileName)
         {
 
-            var appcacheFileTime = File.GetLastWriteTime(
+            var fileTime = File.GetLastWriteTime(
                                 HttpContext.Current.Server.MapPath(fileName)).Ticks;
 
-            return fileName + "?v=" + appcacheFileTime.ToString();
+            return fileName + "?v=" + fileTime.ToString();
         }
 
         public static bool HasEscapeFragment(this HtmlHelper helper)
