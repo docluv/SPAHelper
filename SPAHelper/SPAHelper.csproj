@@ -41,6 +41,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SpaHelper.cs" />
     <Compile Include="SPAHelperResult.cs" />
+    <Compile Include="SPAModel.cs" />
     <Compile Include="SPAWebViewPage.cs" />
   </ItemGroup>
   <ItemGroup>
