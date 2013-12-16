@@ -8,16 +8,15 @@ namespace SPAHelper
 {
 
     public abstract class SPAWebViewPage<T> : WebViewPage<T>
-
     {
 
-        public IHtmlString RenderPage(
-                                long lastRead,
+        public IHtmlString SPARenderPage(
                                 string path,
                                 params Object[] data
                             )
         {
-
+            long lastRead = SpaHelper.LastUpdated();
+            
             var fileTime = File.GetLastWriteTimeUtc(Server.MapPath(@"Views\Home\" + path)).Ticks;
 
             if (lastRead < fileTime)

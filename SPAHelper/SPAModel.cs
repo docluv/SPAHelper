@@ -9,23 +9,7 @@ namespace SPAHelper
     public abstract class SPAModel
     {
 
-        public string[] _routeParams;
-
-        public string[] RouteParams
-        {
-            get
-            {
-
-                return _routeParams;
-
-            }
-            set
-            {
-
-                _routeParams = value;
-
-            }
-        }
+        public string[] RouteParams { get; set; }
 
         public string MainRoute = "";
 
@@ -48,7 +32,7 @@ namespace SPAHelper
         public string _title;
         public string _description;
 
-        public string Title {get; set;}
+        public string Title { get; set; }
         public string Description { get; set; }
 
     }

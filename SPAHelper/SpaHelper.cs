@@ -151,6 +151,12 @@ namespace SPAHelper
 
         public static long LastUpdated(this HtmlHelper helper)
         {
+            return LastUpdated();
+
+        }
+
+        public static long LastUpdated()
+        {
 
             if (HasForceReload())
             {
