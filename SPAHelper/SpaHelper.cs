@@ -14,12 +14,14 @@ namespace SPAHelper
         //adding this for those freaking outdated versions of IE
         //deal with obsolete Internet Explorer Versions
         //I am working a good way to make this test very extensible and not so hard coded.
-        public static bool IsObsoleteBrowser(this HtmlHelper helper) {
+        public static bool IsObsoleteBrowser(this HtmlHelper helper)
+        {
 
             return IsOldIE();
         }
 
-        public static bool IsOldIE() {
+        public static bool IsOldIE()
+        {
 
             var Browser = HttpContext.Current.Request.Browser;
             var isIE = Browser.Browser == "IE";
@@ -30,20 +32,22 @@ namespace SPAHelper
             }
 
             return Browser.MajorVersion != 10;
-        
+
         }
 
-        public static bool IsIE10() { 
+        public static bool IsIE10()
+        {
 
             var Request = HttpContext.Current.Request;
 
             return (Request.Browser.Browser == "InternetExplorer"
                     && Request.Browser.MajorVersion == 10);
-        
+
         }
 
         /* Right now this only matters on my local dev machine. My Windows 2012 server correctly identifies IE 11 as not Internet Explorer, but the version # is incorectly reports as 7. So this is mostly for my local development purposes*/
-        public static bool IsModernIE() {
+        public static bool IsModernIE()
+        {
 
             var Browser = HttpContext.Current.Request.Browser;
             var isModernIE = Browser.Browser == "InternetExplorer";
@@ -60,7 +64,7 @@ namespace SPAHelper
                 return false;
             }
 
-            return true;        
+            return true;
 
         }
 
@@ -72,16 +76,17 @@ namespace SPAHelper
         }
 
         /* Coming soon */
-        public static bool IsOldAndroidWebKit() {
+        public static bool IsOldAndroidWebKit()
+        {
 
             return false;
-        
+
         }
 
         public static string SPALink(this HtmlHelper helper, string route)
         {
 
-            if (IsObsoleteBrowser(helper) || HasEscapeFragment(helper))
+            if (HasEscapeFragment(helper))
             {
                 return String.Format("?_escaped_fragment_={0}", route);
             }
@@ -144,7 +149,8 @@ namespace SPAHelper
             return lastLoad;
         }
 
-        public static long LastUpdated(this HtmlHelper helper) {
+        public static long LastUpdated(this HtmlHelper helper)
+        {
 
             if (HasForceReload())
             {
@@ -182,6 +188,11 @@ namespace SPAHelper
 
         public static bool HasEscapeFragment(this HtmlHelper helper)
         {
+            return HasEscapeFragment();
+        }
+
+        public static bool HasEscapeFragment()
+        {
 
             NameValueCollection queryString = HttpContext.Current.Request.QueryString;
 
@@ -192,7 +203,6 @@ namespace SPAHelper
                     return true;
                 }
             }
-
 
             return false;
         }
