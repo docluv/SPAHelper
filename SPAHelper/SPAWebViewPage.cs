@@ -15,9 +15,9 @@ namespace SPAHelper
                                 params Object[] data
                             )
         {
-            long lastRead = SpaHelper.LastUpdated();
+            DateTime lastRead = SpaHelper.LastUpdated();
             
-            var fileTime = File.GetLastWriteTimeUtc(Server.MapPath(@"Views\Home\" + path)).Ticks;
+            var fileTime = File.GetLastWriteTimeUtc(Server.MapPath(@"Views\Home\" + path));
 
             if (lastRead < fileTime)
             {

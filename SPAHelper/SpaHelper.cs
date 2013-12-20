@@ -9,80 +9,6 @@ namespace SPAHelper
 {
     public static class SpaHelper
     {
-
-
-        //adding this for those freaking outdated versions of IE
-        //deal with obsolete Internet Explorer Versions
-        //I am working a good way to make this test very extensible and not so hard coded.
-        public static bool IsObsoleteBrowser(this HtmlHelper helper)
-        {
-
-            return IsOldIE();
-        }
-
-        public static bool IsOldIE()
-        {
-
-            var Browser = HttpContext.Current.Request.Browser;
-            var isIE = Browser.Browser == "IE";
-
-            if (!isIE)
-            {
-                return false;
-            }
-
-            return Browser.MajorVersion != 10;
-
-        }
-
-        public static bool IsIE10()
-        {
-
-            var Request = HttpContext.Current.Request;
-
-            return (Request.Browser.Browser == "InternetExplorer"
-                    && Request.Browser.MajorVersion == 10);
-
-        }
-
-        /* Right now this only matters on my local dev machine. My Windows 2012 server correctly identifies IE 11 as not Internet Explorer, but the version # is incorectly reports as 7. So this is mostly for my local development purposes*/
-        public static bool IsModernIE()
-        {
-
-            var Browser = HttpContext.Current.Request.Browser;
-            var isModernIE = Browser.Browser == "InternetExplorer";
-
-            if (isModernIE)
-            {
-                return true;
-            }
-
-            var olderID = (Browser.Browser == "IE");
-
-            if (olderID && Browser.MajorVersion != 10)
-            {
-                return false;
-            }
-
-            return true;
-
-        }
-
-        public static bool IsModernIE(this HtmlHelper helper)
-        {
-
-            return HttpContext.Current.Request.Browser.Browser == "InternetExplorer";
-
-        }
-
-        /* Coming soon */
-        public static bool IsOldAndroidWebKit()
-        {
-
-            return false;
-
-        }
-
         public static string SPALink(this HtmlHelper helper, string route)
         {
 
@@ -98,74 +24,26 @@ namespace SPAHelper
 
         }
 
-        [Obsolete("You should adjust code to use Last Modified Header Instead, LastUpdated() Method")]
-        public static long SetUpdateCookie(this HtmlHelper helper,
-                                    string dt, int debugTTL, int productionTTL)
-        {
-
-            DateTime dtNow = DateTime.Now;
-            var cookieTTLMin = 0;
-            var cookieTTLDay = 0;
-
-            if (HttpContext.Current.IsDebuggingEnabled)
-            {
-                cookieTTLMin = debugTTL;
-            }
-            else
-            {
-                cookieTTLDay = productionTTL;
-            }
-
-            TimeSpan tsMinute = new TimeSpan(cookieTTLDay, 0, cookieTTLMin, 0);
-            long lastLoad = DateTime.MinValue.ToUniversalTime().Ticks;
-            var cookie = HttpContext.Current.Request.Cookies[dt];
-
-            if (cookie == null)
-            {
-
-                cookie = new HttpCookie(dt);
-
-                //Set the cookies value
-                cookie.Value = DateTime.Now.ToUniversalTime().Ticks.ToString();
-
-                cookie.Expires = dtNow + tsMinute;
-
-                //Add the cookie
-                HttpContext.Current.Response.Cookies.Add(cookie);
-
-            }
-            else
-            {
-                lastLoad = long.Parse(cookie.Value);
-            }
-
-            //Set the cookies value
-            cookie.Value = DateTime.Now.ToUniversalTime().Ticks.ToString();
-
-            //Set the cookie to expire in 1 minute
-
-            cookie.Expires = dtNow + tsMinute;
-
-            return lastLoad;
-        }
-
-        public static long LastUpdated(this HtmlHelper helper)
+        public static DateTime LastUpdated(this HtmlHelper helper)
         {
             return LastUpdated();
 
         }
 
-        public static long LastUpdated()
+        public static DateTime LastUpdated()
         {
+
+            //borrowed from A Mads Kirstensen post
+            //http://madskristensen.net/post/Use-If-Modified-Since-header-in-ASPNET
 
             if (HasForceReload())
             {
-                return DateTime.MinValue.ToUniversalTime().Ticks;
+                return DateTime.MinValue.ToUniversalTime();
             }
 
             string header = HttpContext.Current.Request.Headers["If-Modified-Since"];
             DateTime lastModified = DateTime.MinValue;
-            long lastLoad = lastModified.ToUniversalTime().Ticks;
+            DateTime lastLoad = lastModified.ToUniversalTime();
 
             if (!string.IsNullOrEmpty(header))
             {
@@ -174,7 +52,7 @@ namespace SPAHelper
 
                 if (lastModified != null)
                 {
-                    lastLoad = lastModified.ToUniversalTime().Ticks;
+                    lastLoad = lastModified.ToUniversalTime();
                 }
 
             }
