@@ -19,7 +19,7 @@ namespace SPAHelper
             
             var fileTime = File.GetLastWriteTimeUtc(Server.MapPath(@"Views\Home\" + path));
 
-            if (lastRead < fileTime)
+            if (lastRead < fileTime || SpaHelper.HasForceReload())
             {
                 return base.RenderPage(path, data);
             }
