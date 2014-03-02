@@ -46,7 +46,6 @@
     <Compile Include="SPAWebViewPage.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="readme.md" />
     <None Include="SPAHelper.nuspec" />
   </ItemGroup>
   <ItemGroup>
