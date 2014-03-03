@@ -17,6 +17,7 @@ namespace SPAHelper
         {
             DateTime lastRead = SpaHelper.LastUpdated();
             
+            //change this so it does not assume the path of views\home
             var fileTime = File.GetLastWriteTimeUtc(Server.MapPath(@"Views\Home\" + path));
 
             if (lastRead < fileTime || SpaHelper.HasForceReload())

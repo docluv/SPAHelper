@@ -1,0 +1,3 @@
+# SPAHelperResult Class
+
+SPAHelperResult is a class that implements the IHtmlString interface. This interface has a single method, ToHtmlString. The SPAHelperResult returns an empty string. This satisfies the SPAWebViewPage's requirement to return a value string value in place of the RenderPage method when a view does not need to be included in the latest response stream. Views unchanged since the last client request for the SPA's content will not be sent across the wire to improve performance. It is a courtious act as well to help customers keep mobile data consumption lower.
