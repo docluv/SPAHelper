@@ -1,20 +1,22 @@
-<?xml version="1.0"?>
-<package >
-  <metadata>
-    <id>SPAHelper.dll</id>
-    <version>1.0.0</version>
-    <authors>Chris Love</authors>
-    <owners>Chris Love</owners>
-    <licenseUrl>http://LICENSE_URL_HERE_OR_DELETE_THIS_LINE</licenseUrl>
-    <projectUrl>https://github.com/docluv/SPAHelper</projectUrl>
-    <iconUrl>http://images.professionalaspnet.com/spahelper.png</iconUrl>
-    <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>The SPAHelper library includes ASP.NET MVC extensions to help with important Single Page Web Application Server-Side Functions. </description>
-    <releaseNotes>This is the initial NuGet package.</releaseNotes>
-    <copyright>Copyright 2014</copyright>
-    <tags>SPA, ASP.NET MVC</tags>
-    <dependencies>
-      <dependency id="SampleDependency" version="1.0" />
-    </dependencies>
-  </metadata>
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+    <metadata>
+        <id>SPAHelper.dll</id>
+        <version>1.0.0</version>
+        <title>SPAHelper</title>
+        <authors>Chris Love</authors>
+        <owners>Chris Love</owners>
+        <licenseUrl>https://raw.github.com/docluv/SPAHelper/master/SPAHelper/license.txt</licenseUrl>
+        <projectUrl>https://github.com/docluv/SPAHelper</projectUrl>
+        <iconUrl>http://images.professionalaspnet.com/spaHelper.png</iconUrl>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>The SPAHelper library includes ASP.NET MVC extensions to help with important Single Page Web Application Server-Side Functions.</description>
+        <releaseNotes />
+        <copyright>Copyright 2014</copyright>
+        <language>en-US</language>
+        <tags>SPA, ASP.NET MVC</tags>
+    </metadata>
+    <files>
+        <file src="bin\Debug\SPAHelper.dll" target="lib\net45\SPAHelper.dll" />
+    </files>
 </package>
