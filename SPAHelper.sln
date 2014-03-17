@@ -8,10 +8,10 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{24CED1DD-2899-46F1-9F43-ADA600C701AC}"
 	ProjectSection(SolutionItems) = preProject
 		readme.md = readme.md
-		SPAHelper.md = SPAHelper.md
-		SPAHelperResult.md = SPAHelperResult.md
-		SPAModel.md = SPAModel.md
-		SPAWebViewPage.md = SPAWebViewPage.md
+		docs\SPAHelper.md = docs\SPAHelper.md
+		docs\SPAHelperResult.md = docs\SPAHelperResult.md
+		docs\SPAModel.md = docs\SPAModel.md
+		docs\SPAWebViewPage.md = docs\SPAWebViewPage.md
 	EndProjectSection
 EndProject
 Global
